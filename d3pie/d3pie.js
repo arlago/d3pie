@@ -813,28 +813,38 @@ var labels = {
 
 		// 1. Add the main label
 		if (include.mainLabel) {
-			labelGroup.append("text")
-				.attr("id", function(d, i) { return pie.cssPrefix + "segmentMainLabel" + i + "-" + section; })
-				.attr("class", pie.cssPrefix + "segmentMainLabel-" + section)
-				.text(function(d, i) {
-					var str = d.label;
+			if(include.isImageLabel) {
+				labelGroup.append("svg:image")
+					.attr("id", function(d, i) { return pie.cssPrefix + "segmentMainLabel" + i + "-" + section; })
+					.attr("class", pie.cssPrefix + "segmentMainLabel-" + section)
+					.attr("height", function(d, i) { return d.height; })
+					.attr("width", function(d, i) { return d.width; })
+					.attr("y", function(d, i) { return d.y; })
+					.attr("xlink:href", function(d, i) { return d.href; });
+			} else {
+				labelGroup.append("text")
+					.attr("id", function(d, i) { return pie.cssPrefix + "segmentMainLabel" + i + "-" + section; })
+					.attr("class", pie.cssPrefix + "segmentMainLabel-" + section)
+					.text(function(d, i) {
+						var str = d.label;
 
-          // if a custom formatter has been defined, pass it the raw label string - it can do whatever it wants with it.
-          // we only apply truncation if it's not defined
-					if (settings.formatter) {
-            formatterContext.index = i;
-            formatterContext.part = 'mainLabel';
-            formatterContext.value = d.value;
-            formatterContext.label = str;
-            str = settings.formatter(formatterContext);
-          } else if (settings.truncation.enabled && d.label.length > settings.truncation.truncateLength) {
-            str = d.label.substring(0, settings.truncation.truncateLength) + "...";
-          }
-          return str;
-				})
-				.style("font-size", settings.mainLabel.fontSize + "px")
-				.style("font-family", settings.mainLabel.font)
-				.style("fill", settings.mainLabel.color);
+	          // if a custom formatter has been defined, pass it the raw label string - it can do whatever it wants with it.
+	          // we only apply truncation if it's not defined
+						if (settings.formatter) {
+	            formatterContext.index = i;
+	            formatterContext.part = 'mainLabel';
+	            formatterContext.value = d.value;
+	            formatterContext.label = str;
+	            str = settings.formatter(formatterContext);
+	          } else if (settings.truncation.enabled && d.label.length > settings.truncation.truncateLength) {
+	            str = d.label.substring(0, settings.truncation.truncateLength) + "...";
+	          }
+	          return str;
+					})
+					.style("font-size", settings.mainLabel.fontSize + "px")
+					.style("font-family", settings.mainLabel.font)
+					.style("fill", settings.mainLabel.color);
+			}
 		}
 
 		// 2. Add the percentage label
@@ -1105,6 +1115,7 @@ var labels = {
 		var addMainLabel  = false;
 		var addValue      = false;
 		var addPercentage = false;
+		var isImageLabel  = false;
 
 		switch (val) {
 			case "label":
@@ -1126,11 +1137,18 @@ var labels = {
 				addMainLabel = true;
 				addPercentage = true;
 				break;
+			case "image-label-percentage1":
+			case "image-label-percentage2":
+				addMainLabel = true;
+				addPercentage = true;
+				isImageLabel = true;
+				break;
 		}
 		return {
 			mainLabel: addMainLabel,
 			value: addValue,
-			percentage: addPercentage
+			percentage: addPercentage,
+			isImageLabel: isImageLabel
 		};
 	},
 
