@@ -10,7 +10,7 @@ var segments = {
     var colors = pie.options.colors;
     var loadEffects = pie.options.effects.load;
     var segmentStroke = pie.options.misc.colors.segmentStroke;
-    var strokesEnabled = undefined === pie.options.misc.strokesEnabled ? true : pie.options.misc.strokesEnabled;
+    var strokesEnabled = (undefined === pie.options.misc.strokesEnabled ? true : pie.options.misc.strokesEnabled);
 
     // we insert the pie chart BEFORE the title, to ensure the title overlaps the pie
     var pieChartElement = pie.svg.insert("g", "#" + pie.cssPrefix + "title")
@@ -47,7 +47,7 @@ var segments = {
         return color;
       })
       .style("stroke", segmentStroke)
-      .style("stroke-width", function(d, i) { return strokesEnabled ? 1 : 0 })
+      .style("stroke-width", function(d, i) { return strokesEnabled ? 1 : 0; })
       .transition()
       .ease("cubic-in-out")
       .duration(loadSpeed)

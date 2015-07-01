@@ -1315,7 +1315,7 @@ var segments = {
     var colors = pie.options.colors;
     var loadEffects = pie.options.effects.load;
     var segmentStroke = pie.options.misc.colors.segmentStroke;
-    var strokesEnabled = pie.options.misc.strokesEnabled ? pie.options.misc.strokesEnabled : true;
+    var strokesEnabled = (undefined === pie.options.misc.strokesEnabled ? true : pie.options.misc.strokesEnabled);
 
     // we insert the pie chart BEFORE the title, to ensure the title overlaps the pie
     var pieChartElement = pie.svg.insert("g", "#" + pie.cssPrefix + "title")
@@ -1350,12 +1350,10 @@ var segments = {
           color = "url(#" + pie.cssPrefix + "grad" + i + ")";
         }
         return color;
-      });
-      if(strokesEnabled) {
-        g.style("stroke", segmentStroke)
-        .style("stroke-width", 1);
-      }
-      g.transition()
+      })
+      .style("stroke", segmentStroke)
+      .style("stroke-width", function(d, i) { return strokesEnabled ? 1 : 0; })
+      .transition()
       .ease("cubic-in-out")
       .duration(loadSpeed)
       .attr("data-index", function(d, i) { return i; })
