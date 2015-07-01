@@ -89,28 +89,35 @@ var segments = {
 
   addSegmentEventHandlers: function(pie) {
     var arc = d3.selectAll("." + pie.cssPrefix + "arc,." + pie.cssPrefix + "labelGroup-inner,." + pie.cssPrefix + "labelGroup-outer");
+    var clickEnabled = true;
+    var misc = pie.options.misc;
+    if (undefined !==  misc && undefined !== misc.segmentEvents) {
+      if(undefined !== misc.segmentEvents.clickEnabled) { clickEnabled = misc.segmentEvents.clickEnabled; }
+    }
 
-    arc.on("click", function() {
-      var currentEl = d3.select(this);
-      var segment;
+    if(clickEnabled) {
+      arc.on("click", function() {
+        var currentEl = d3.select(this);
+        var segment;
 
-      // mouseover works on both the segments AND the segment labels, hence the following
-      if (currentEl.attr("class") === pie.cssPrefix + "arc") {
-        segment = currentEl.select("path");
-      } else {
-        var index = currentEl.attr("data-index");
-        segment = d3.select("#" + pie.cssPrefix + "segment" + index);
-      }
-      var isExpanded = segment.attr("class") === pie.cssPrefix + "expanded";
-      segments.onSegmentEvent(pie, pie.options.callbacks.onClickSegment, segment, isExpanded);
-      if (pie.options.effects.pullOutSegmentOnClick.effect !== "none") {
-        if (isExpanded) {
-          segments.closeSegment(pie, segment.node());
+        // mouseover works on both the segments AND the segment labels, hence the following
+        if (currentEl.attr("class") === pie.cssPrefix + "arc") {
+          segment = currentEl.select("path");
         } else {
-          segments.openSegment(pie, segment.node());
+          var index = currentEl.attr("data-index");
+          segment = d3.select("#" + pie.cssPrefix + "segment" + index);
         }
-      }
-    });
+        var isExpanded = segment.attr("class") === pie.cssPrefix + "expanded";
+        segments.onSegmentEvent(pie, pie.options.callbacks.onClickSegment, segment, isExpanded);
+        if (pie.options.effects.pullOutSegmentOnClick.effect !== "none") {
+          if (isExpanded) {
+            segments.closeSegment(pie, segment.node());
+          } else {
+            segments.openSegment(pie, segment.node());
+          }
+        }
+      });
+    }
 
     arc.on("mouseover", function() {
       var currentEl = d3.select(this);
