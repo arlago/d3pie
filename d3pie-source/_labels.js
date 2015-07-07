@@ -253,6 +253,8 @@ var labels = {
       return;
     }
 
+    var isImageLabel = ("image-label-percentage1" === format || "image-label-percentage2" === format);
+
     d3.selectAll("." + pie.cssPrefix + "labelGroup-" + section)
       .style("opacity", 0)
       .attr("transform", function(d, i) {
@@ -260,8 +262,10 @@ var labels = {
         if (section === "outer") {
           x = pie.outerLabelGroupData[i].x;
           y = pie.outerLabelGroupData[i].y;
-          if(("image-label-percentage1" === format || "image-label-percentage2" === format) && pie.pieCenter.y < y) {
+          if(isImageLabel && pie.pieCenter.y < y) {
+            // Here, it's necessary to take into account the size of the image and the distortion of the half down of the circle.
             y +=  parseInt(d.height.replace('px', ''));
+            y += labels.increaseImageLabelDistance(pie, i);
           }
         } else {
           var pieCenterCopy = extend(true, {}, pie.pieCenter);
@@ -289,6 +293,38 @@ var labels = {
       });
   },
 
+  /* The trigonometric circle used in the lib is represented as below:
+   *              0
+   *         360     90
+   *             180
+   */
+  increaseImageLabelDistance: function (pie, i) {
+
+    // The max value to increase de distance of the label group is when it's located at 180°. It's must be increased in at most 14.3% of the pie's innerRadius.
+    var maxIncrease = (pie.innerRadius * 14.3) / 100;
+    // Como temos apenas distorção em apenas 30 graus do ponto extremo inferior do círculo, vamos calcular qual o valor aumentado a cada grau de aproximação desse ponto.
+    // There is distortion only the position of the goup is between 150° and 210°, so here is a rough value increase by degree in relation to the 180°.
+    var increasePerDegree = maxIncrease / 30;
+
+    var increase = 0;
+
+    var angle = segments.getSegmentAngle(i, pie.options.data.content, pie.totalSize, { midpoint: true });
+
+    if(210 < angle || 150 > angle) {
+      return increase;
+    }
+
+    var angleDifference = 0;
+    if(150 < angle) {
+      angleDifference = angle - 150;
+    } else {
+      angleDifference = 210 - angle;
+    }
+    increase = angleDifference * increasePerDegree;
+
+    return increase;
+
+  },
 
   fadeInLabelsAndLines: function(pie) {
 

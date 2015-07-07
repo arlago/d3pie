@@ -37,152 +37,152 @@
  * d3pie instance will inherit from these. This is also included on the main website for use in the generation script.
  */
 var defaultSettings = {
-  header: {
-    title: {
-      text:     "",
-      color:    "#333333",
-      fontSize: 18,
-      font:     "arial"
-    },
-    subtitle: {
-      text:     "",
-      color:    "#666666",
-      fontSize: 14,
-      font:     "arial"
-    },
-    location: "top-center",
-    titleSubtitlePadding: 8
-  },
-  footer: {
-    text: 	  "",
-    color:    "#666666",
-    fontSize: 14,
-    font:     "arial",
-    location: "left"
-  },
-  size: {
-    canvasHeight: 500,
-    canvasWidth: 500,
-    pieInnerRadius: "0%",
-    pieOuterRadius: null
-  },
-  data: {
-    sortOrder: "none",
-    ignoreSmallSegments: {
-      enabled: false,
-      valueType: "percentage",
-      value: null
-    },
-    smallSegmentGrouping: {
-      enabled: false,
-      value: 1,
-      valueType: "percentage",
-      label: "Other",
-      color: "#cccccc"
-    },
-    content: []
-  },
-  labels: {
-    outer: {
-      format: "label",
-      hideWhenLessThanPercentage: null,
-      pieDistance: 30
-    },
-    inner: {
-      format: "percentage",
-      hideWhenLessThanPercentage: null
-    },
-    mainLabel: {
-      color: "#333333",
-      font: "arial",
-      fontSize: 10
-    },
-    percentage: {
-      color: "#dddddd",
-      font: "arial",
-      fontSize: 10,
-      decimalPlaces: 0
-    },
-    value: {
-      color: "#cccc44",
-      font: "arial",
-      fontSize: 10
-    },
-    lines: {
-      enabled: true,
-      style: "curved",
-      color: "segment"
-    },
-    truncation: {
-      enabled: false,
-      truncateLength: 30
-    },
+	header: {
+		title: {
+			text:     "",
+			color:    "#333333",
+			fontSize: 18,
+			font:     "arial"
+		},
+		subtitle: {
+			text:     "",
+			color:    "#666666",
+			fontSize: 14,
+			font:     "arial"
+		},
+		location: "top-center",
+		titleSubtitlePadding: 8
+	},
+	footer: {
+		text: 	  "",
+		color:    "#666666",
+		fontSize: 14,
+		font:     "arial",
+		location: "left"
+	},
+	size: {
+		canvasHeight: 500,
+		canvasWidth: 500,
+		pieInnerRadius: "0%",
+		pieOuterRadius: null
+	},
+	data: {
+		sortOrder: "none",
+		ignoreSmallSegments: {
+			enabled: false,
+			valueType: "percentage",
+			value: null
+		},
+		smallSegmentGrouping: {
+			enabled: false,
+			value: 1,
+			valueType: "percentage",
+			label: "Other",
+			color: "#cccccc"
+		},
+		content: []
+	},
+	labels: {
+		outer: {
+			format: "label",
+			hideWhenLessThanPercentage: null,
+			pieDistance: 30
+		},
+		inner: {
+			format: "percentage",
+			hideWhenLessThanPercentage: null
+		},
+		mainLabel: {
+			color: "#333333",
+			font: "arial",
+			fontSize: 10
+		},
+		percentage: {
+			color: "#dddddd",
+			font: "arial",
+			fontSize: 10,
+			decimalPlaces: 0
+		},
+		value: {
+			color: "#cccc44",
+			font: "arial",
+			fontSize: 10
+		},
+		lines: {
+			enabled: true,
+			style: "curved",
+			color: "segment"
+		},
+		truncation: {
+			enabled: false,
+			truncateLength: 30
+		},
     formatter: null
-  },
-  effects: {
-    load: {
-      effect: "default",
-      speed: 1000
-    },
-    pullOutSegmentOnClick: {
-      effect: "bounce",
-      speed: 300,
-      size: 10
-    },
-    highlightSegmentOnMouseover: true,
-    highlightLuminosity: -0.2
-  },
-  tooltips: {
-    enabled: false,
-    type: "placeholder", // caption|placeholder
+	},
+	effects: {
+		load: {
+			effect: "default",
+			speed: 1000
+		},
+		pullOutSegmentOnClick: {
+			effect: "bounce",
+			speed: 300,
+			size: 10
+		},
+		highlightSegmentOnMouseover: true,
+		highlightLuminosity: -0.2
+	},
+	tooltips: {
+		enabled: false,
+		type: "placeholder", // caption|placeholder
     string: "",
     placeholderParser: null,
-    styles: {
+		styles: {
       fadeInSpeed: 250,
-      backgroundColor: "#000000",
+			backgroundColor: "#000000",
       backgroundOpacity: 0.5,
-      color: "#efefef",
+			color: "#efefef",
       borderRadius: 2,
       font: "arial",
       fontSize: 10,
       padding: 4
-    }
-  },
-  misc: {
-    colors: {
-      background: null,
-      segments: [
-        "#2484c1", "#65a620", "#7b6888", "#a05d56", "#961a1a", "#d8d23a", "#e98125", "#d0743c", "#635222", "#6ada6a",
-        "#0c6197", "#7d9058", "#207f33", "#44b9b0", "#bca44a", "#e4a14b", "#a3acb2", "#8cc3e9", "#69a6f9", "#5b388f",
-        "#546e91", "#8bde95", "#d2ab58", "#273c71", "#98bf6e", "#4daa4b", "#98abc5", "#cc1010", "#31383b", "#006391",
-        "#c2643f", "#b0a474", "#a5a39c", "#a9c2bc", "#22af8c", "#7fcecf", "#987ac6", "#3d3b87", "#b77b1c", "#c9c2b6",
-        "#807ece", "#8db27c", "#be66a2", "#9ed3c6", "#00644b", "#005064", "#77979f", "#77e079", "#9c73ab", "#1f79a7"
-      ],
-      segmentStroke: "#ffffff"
-    },
-    gradient: {
-      enabled: false,
-      percentage: 95,
-      color: "#000000"
-    },
-    canvasPadding: {
-      top: 5,
-      right: 5,
-      bottom: 5,
-      left: 5
-    },
-    pieCenterOffset: {
-      x: 0,
-      y: 0
-    },
-    cssPrefix: null
-  },
-  callbacks: {
-    onload: null,
-    onMouseoverSegment: null,
-    onMouseoutSegment: null,
-    onClickSegment: null
-  }
+		}
+	},
+	misc: {
+		colors: {
+			background: null,
+			segments: [
+				"#2484c1", "#65a620", "#7b6888", "#a05d56", "#961a1a", "#d8d23a", "#e98125", "#d0743c", "#635222", "#6ada6a",
+				"#0c6197", "#7d9058", "#207f33", "#44b9b0", "#bca44a", "#e4a14b", "#a3acb2", "#8cc3e9", "#69a6f9", "#5b388f",
+				"#546e91", "#8bde95", "#d2ab58", "#273c71", "#98bf6e", "#4daa4b", "#98abc5", "#cc1010", "#31383b", "#006391",
+				"#c2643f", "#b0a474", "#a5a39c", "#a9c2bc", "#22af8c", "#7fcecf", "#987ac6", "#3d3b87", "#b77b1c", "#c9c2b6",
+				"#807ece", "#8db27c", "#be66a2", "#9ed3c6", "#00644b", "#005064", "#77979f", "#77e079", "#9c73ab", "#1f79a7"
+			],
+			segmentStroke: "#ffffff"
+		},
+		gradient: {
+			enabled: false,
+			percentage: 95,
+			color: "#000000"
+		},
+		canvasPadding: {
+			top: 5,
+			right: 5,
+			bottom: 5,
+			left: 5
+		},
+		pieCenterOffset: {
+			x: 0,
+			y: 0
+		},
+		cssPrefix: null
+	},
+	callbacks: {
+		onload: null,
+		onMouseoverSegment: null,
+		onMouseoutSegment: null,
+		onClickSegment: null
+	}
 };
 
   //// --------- validate.js -----------
@@ -1042,6 +1042,8 @@ var labels = {
       return;
     }
 
+    var isImageLabel = ("image-label-percentage1" === format || "image-label-percentage2" === format);
+
     d3.selectAll("." + pie.cssPrefix + "labelGroup-" + section)
       .style("opacity", 0)
       .attr("transform", function(d, i) {
@@ -1049,8 +1051,10 @@ var labels = {
         if (section === "outer") {
           x = pie.outerLabelGroupData[i].x;
           y = pie.outerLabelGroupData[i].y;
-          if(("image-label-percentage1" === format || "image-label-percentage2" === format) && pie.pieCenter.y < y) {
+          if(isImageLabel && pie.pieCenter.y < y) {
+            // Here, it's necessary to take into account the size of the image and the distortion of the half down of the circle.
             y +=  parseInt(d.height.replace('px', ''));
+            y += labels.increaseImageLabelDistance(pie, i);
           }
         } else {
           var pieCenterCopy = extend(true, {}, pie.pieCenter);
@@ -1078,6 +1082,68 @@ var labels = {
       });
   },
 
+  /* The trigonometric circle used in the lib is represented as below:
+   *              0
+   *         360     90
+   *             180
+   */
+  increaseImageLabelDistance: function (pie, i) {
+
+    // The max value to increase de distance of the label group is when it's located at 180°. It's must be increased in at most 14.3% of the pie's innerRadius.
+    var maxIncrease = (pie.innerRadius * 14.3) / 100;
+    // Como temos apenas distorção em apenas 30 graus do ponto extremo inferior do círculo, vamos calcular qual o valor aumentado a cada grau de aproximação desse ponto.
+    // There is distortion only the position of the goup is between 150° and 210°, so here is a rough value increase by degree in relation to the 180°.
+    var increasePerDegree = maxIncrease / 30;
+
+    var increase = 0;
+    var outerPieDistance = pie.options.labels.outer.pieDistance;
+    if(outerPieDistance > 10) {
+      return increase;
+    }
+
+    var angle = segments.getSegmentAngle(i, pie.options.data.content, pie.totalSize, { midpoint: true });
+
+    if(210 < angle || 150 > angle) {
+      return increase;
+    }
+
+    var angleDifference = 0;
+    if(150 < angle) {
+      angleDifference = angle - 150;
+    } else {
+      angleDifference = 210 - angle;
+    }
+    increase = angleDifference * increasePerDegree;
+
+    return increase;
+
+  },
+  // increaseImageLabelDistance: function (pie, i) {
+  //
+  //   var increase = 0;
+  //   var outerPieDistance = pie.options.labels.outer.pieDistance;
+  //   if(outerPieDistance > 10) {
+  //     return increase;
+  //   }
+  //
+  //   var angle = segments.getSegmentAngle(i, pie.options.data.content, pie.totalSize, { midpoint: true });
+  //
+  //   // TODO change the type of verification
+  //   if(240 > angle || 300 < angle) {
+  //     return increase;
+  //   }
+  //
+  //   var angleDifference = 0;
+  //   if(240 < angle) {
+  //     angleDifference = angle - 240;
+  //   } else {
+  //     angleDifference = 300 - angle;
+  //   }
+  //   increase = angleDifference / 2.5;
+  //
+  //   return increase;
+  //
+  // },
 
   fadeInLabelsAndLines: function(pie) {
 
@@ -1810,7 +1876,7 @@ var text = {
           return d.text;
         })
         .attr("x", 0)
-        .attr("dy", function(d, i) { return this.offsetHeight + d.bottomPadding; })
+        .attr("dy", function(d, i) { return this.offsetHeight + d.topPadding; })
         .attr("fill", function(d) { return d.color; })
         .style("font-size", function(d) { return d.fontSize + "px"; })
         .style("font-family", function(d) { return d.font; });

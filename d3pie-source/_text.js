@@ -205,7 +205,7 @@ var text = {
           return d.text;
         })
         .attr("x", 0)
-        .attr("dy", function(d, i) { return this.offsetHeight + d.bottomPadding; })
+        .attr("dy", function(d, i) { return this.offsetHeight + d.topPadding; })
         .attr("fill", function(d) { return d.color; })
         .style("font-size", function(d) { return d.fontSize + "px"; })
         .style("font-family", function(d) { return d.font; });
