@@ -21,171 +21,171 @@
   }
 }(this, function() {
 
-	var _scriptName = "d3pie";
-	var _version = "0.1.6";
+  var _scriptName = "d3pie";
+  var _version = "0.1.6";
 
-	// used to uniquely generate IDs and classes, ensuring no conflict between multiple pies on the same page
-	var _uniqueIDCounter = 0;
+  // used to uniquely generate IDs and classes, ensuring no conflict between multiple pies on the same page
+  var _uniqueIDCounter = 0;
 
 
-	// this section includes all helper libs on the d3pie object. They're populated via grunt-template. Note: to keep
-	// the syntax highlighting from getting all messed up, I commented out each line. That REQUIRES each of the files
-	// to have an empty first line. Crumby, yes, but acceptable.
-	//// --------- _default-settings.js -----------/**
+  // this section includes all helper libs on the d3pie object. They're populated via grunt-template. Note: to keep
+  // the syntax highlighting from getting all messed up, I commented out each line. That REQUIRES each of the files
+  // to have an empty first line. Crumby, yes, but acceptable.
+  //// --------- _default-settings.js -----------/**
 /**
  * Contains the out-the-box settings for the script. Any of these settings that aren't explicitly overridden for the
  * d3pie instance will inherit from these. This is also included on the main website for use in the generation script.
  */
 var defaultSettings = {
-	header: {
-		title: {
-			text:     "",
-			color:    "#333333",
-			fontSize: 18,
-			font:     "arial"
-		},
-		subtitle: {
-			text:     "",
-			color:    "#666666",
-			fontSize: 14,
-			font:     "arial"
-		},
-		location: "top-center",
-		titleSubtitlePadding: 8
-	},
-	footer: {
-		text: 	  "",
-		color:    "#666666",
-		fontSize: 14,
-		font:     "arial",
-		location: "left"
-	},
-	size: {
-		canvasHeight: 500,
-		canvasWidth: 500,
-		pieInnerRadius: "0%",
-		pieOuterRadius: null
-	},
-	data: {
-		sortOrder: "none",
-		ignoreSmallSegments: {
-			enabled: false,
-			valueType: "percentage",
-			value: null
-		},
-		smallSegmentGrouping: {
-			enabled: false,
-			value: 1,
-			valueType: "percentage",
-			label: "Other",
-			color: "#cccccc"
-		},
-		content: []
-	},
-	labels: {
-		outer: {
-			format: "label",
-			hideWhenLessThanPercentage: null,
-			pieDistance: 30
-		},
-		inner: {
-			format: "percentage",
-			hideWhenLessThanPercentage: null
-		},
-		mainLabel: {
-			color: "#333333",
-			font: "arial",
-			fontSize: 10
-		},
-		percentage: {
-			color: "#dddddd",
-			font: "arial",
-			fontSize: 10,
-			decimalPlaces: 0
-		},
-		value: {
-			color: "#cccc44",
-			font: "arial",
-			fontSize: 10
-		},
-		lines: {
-			enabled: true,
-			style: "curved",
-			color: "segment"
-		},
-		truncation: {
-			enabled: false,
-			truncateLength: 30
-		},
+  header: {
+    title: {
+      text:     "",
+      color:    "#333333",
+      fontSize: 18,
+      font:     "arial"
+    },
+    subtitle: {
+      text:     "",
+      color:    "#666666",
+      fontSize: 14,
+      font:     "arial"
+    },
+    location: "top-center",
+    titleSubtitlePadding: 8
+  },
+  footer: {
+    text: 	  "",
+    color:    "#666666",
+    fontSize: 14,
+    font:     "arial",
+    location: "left"
+  },
+  size: {
+    canvasHeight: 500,
+    canvasWidth: 500,
+    pieInnerRadius: "0%",
+    pieOuterRadius: null
+  },
+  data: {
+    sortOrder: "none",
+    ignoreSmallSegments: {
+      enabled: false,
+      valueType: "percentage",
+      value: null
+    },
+    smallSegmentGrouping: {
+      enabled: false,
+      value: 1,
+      valueType: "percentage",
+      label: "Other",
+      color: "#cccccc"
+    },
+    content: []
+  },
+  labels: {
+    outer: {
+      format: "label",
+      hideWhenLessThanPercentage: null,
+      pieDistance: 30
+    },
+    inner: {
+      format: "percentage",
+      hideWhenLessThanPercentage: null
+    },
+    mainLabel: {
+      color: "#333333",
+      font: "arial",
+      fontSize: 10
+    },
+    percentage: {
+      color: "#dddddd",
+      font: "arial",
+      fontSize: 10,
+      decimalPlaces: 0
+    },
+    value: {
+      color: "#cccc44",
+      font: "arial",
+      fontSize: 10
+    },
+    lines: {
+      enabled: true,
+      style: "curved",
+      color: "segment"
+    },
+    truncation: {
+      enabled: false,
+      truncateLength: 30
+    },
     formatter: null
-	},
-	effects: {
-		load: {
-			effect: "default",
-			speed: 1000
-		},
-		pullOutSegmentOnClick: {
-			effect: "bounce",
-			speed: 300,
-			size: 10
-		},
-		highlightSegmentOnMouseover: true,
-		highlightLuminosity: -0.2
-	},
-	tooltips: {
-		enabled: false,
-		type: "placeholder", // caption|placeholder
+  },
+  effects: {
+    load: {
+      effect: "default",
+      speed: 1000
+    },
+    pullOutSegmentOnClick: {
+      effect: "bounce",
+      speed: 300,
+      size: 10
+    },
+    highlightSegmentOnMouseover: true,
+    highlightLuminosity: -0.2
+  },
+  tooltips: {
+    enabled: false,
+    type: "placeholder", // caption|placeholder
     string: "",
     placeholderParser: null,
-		styles: {
+    styles: {
       fadeInSpeed: 250,
-			backgroundColor: "#000000",
+      backgroundColor: "#000000",
       backgroundOpacity: 0.5,
-			color: "#efefef",
+      color: "#efefef",
       borderRadius: 2,
       font: "arial",
       fontSize: 10,
       padding: 4
-		}
-	},
-	misc: {
-		colors: {
-			background: null,
-			segments: [
-				"#2484c1", "#65a620", "#7b6888", "#a05d56", "#961a1a", "#d8d23a", "#e98125", "#d0743c", "#635222", "#6ada6a",
-				"#0c6197", "#7d9058", "#207f33", "#44b9b0", "#bca44a", "#e4a14b", "#a3acb2", "#8cc3e9", "#69a6f9", "#5b388f",
-				"#546e91", "#8bde95", "#d2ab58", "#273c71", "#98bf6e", "#4daa4b", "#98abc5", "#cc1010", "#31383b", "#006391",
-				"#c2643f", "#b0a474", "#a5a39c", "#a9c2bc", "#22af8c", "#7fcecf", "#987ac6", "#3d3b87", "#b77b1c", "#c9c2b6",
-				"#807ece", "#8db27c", "#be66a2", "#9ed3c6", "#00644b", "#005064", "#77979f", "#77e079", "#9c73ab", "#1f79a7"
-			],
-			segmentStroke: "#ffffff"
-		},
-		gradient: {
-			enabled: false,
-			percentage: 95,
-			color: "#000000"
-		},
-		canvasPadding: {
-			top: 5,
-			right: 5,
-			bottom: 5,
-			left: 5
-		},
-		pieCenterOffset: {
-			x: 0,
-			y: 0
-		},
-		cssPrefix: null
-	},
-	callbacks: {
-		onload: null,
-		onMouseoverSegment: null,
-		onMouseoutSegment: null,
-		onClickSegment: null
-	}
+    }
+  },
+  misc: {
+    colors: {
+      background: null,
+      segments: [
+        "#2484c1", "#65a620", "#7b6888", "#a05d56", "#961a1a", "#d8d23a", "#e98125", "#d0743c", "#635222", "#6ada6a",
+        "#0c6197", "#7d9058", "#207f33", "#44b9b0", "#bca44a", "#e4a14b", "#a3acb2", "#8cc3e9", "#69a6f9", "#5b388f",
+        "#546e91", "#8bde95", "#d2ab58", "#273c71", "#98bf6e", "#4daa4b", "#98abc5", "#cc1010", "#31383b", "#006391",
+        "#c2643f", "#b0a474", "#a5a39c", "#a9c2bc", "#22af8c", "#7fcecf", "#987ac6", "#3d3b87", "#b77b1c", "#c9c2b6",
+        "#807ece", "#8db27c", "#be66a2", "#9ed3c6", "#00644b", "#005064", "#77979f", "#77e079", "#9c73ab", "#1f79a7"
+      ],
+      segmentStroke: "#ffffff"
+    },
+    gradient: {
+      enabled: false,
+      percentage: 95,
+      color: "#000000"
+    },
+    canvasPadding: {
+      top: 5,
+      right: 5,
+      bottom: 5,
+      left: 5
+    },
+    pieCenterOffset: {
+      x: 0,
+      y: 0
+    },
+    cssPrefix: null
+  },
+  callbacks: {
+    onload: null,
+    onMouseoverSegment: null,
+    onMouseoutSegment: null,
+    onClickSegment: null
+  }
 };
 
-	//// --------- validate.js -----------
+  //// --------- validate.js -----------
 var validate = {
 
 	// called whenever a new pie chart is created
@@ -244,336 +244,341 @@ var validate = {
 	}
 };
 
-	//// --------- helpers.js -----------
+  //// --------- helpers.js -----------
 var helpers = {
 
-	// creates the SVG element
-	addSVGSpace: function(pie) {
-		var element = pie.element;
-		var canvasWidth = pie.options.size.canvasWidth;
-		var canvasHeight = pie.options.size.canvasHeight;
-		var backgroundColor = pie.options.misc.colors.background;
+  // creates the SVG element
+  addSVGSpace: function(pie) {
+    var element = pie.element;
+    var canvasWidth = pie.options.size.canvasWidth;
+    var canvasHeight = pie.options.size.canvasHeight;
+    var backgroundColor = pie.options.misc.colors.background;
 
-		var svg = d3.select(element).append("svg:svg")
-			.attr("width", canvasWidth)
-			.attr("height", canvasHeight);
+    var svg = d3.select(element).append("svg:svg")
+      .attr("width", canvasWidth)
+      .attr("height", canvasHeight);
 
-		if (backgroundColor !== "transparent") {
-			svg.style("background-color", function() { return backgroundColor; });
-		}
+    if (backgroundColor !== "transparent") {
+      svg.style("background-color", function() { return backgroundColor; });
+    }
 
-		return svg;
-	},
+    return svg;
+  },
 
-	whenIdExists: function(id, callback) {
-		var inc = 1;
-		var giveupIterationCount = 1000;
+  whenIdExists: function(id, callback) {
+    var inc = 1;
+    var giveupIterationCount = 1000;
 
-		var interval = setInterval(function() {
-			if (document.getElementById(id)) {
-				clearInterval(interval);
-				callback();
-			}
-			if (inc > giveupIterationCount) {
-				clearInterval(interval);
-			}
-			inc++;
-		}, 1);
-	},
+    var interval = setInterval(function() {
+      if (document.getElementById(id)) {
+        clearInterval(interval);
+        callback();
+      }
+      if (inc > giveupIterationCount) {
+        clearInterval(interval);
+      }
+      inc++;
+    }, 1);
+  },
 
-	whenElementsExist: function(els, callback) {
-		var inc = 1;
-		var giveupIterationCount = 1000;
+  whenElementsExist: function(els, callback) {
+    var inc = 1;
+    var giveupIterationCount = 1000;
 
-		var interval = setInterval(function() {
-			var allExist = true;
-			for (var i=0; i<els.length; i++) {
-				if (!document.getElementById(els[i])) {
-					allExist = false;
-					break;
-				}
-			}
-			if (allExist) {
-				clearInterval(interval);
-				callback();
-			}
-			if (inc > giveupIterationCount) {
-				clearInterval(interval);
-			}
-			inc++;
-		}, 1);
-	},
+    var interval = setInterval(function() {
+      var allExist = true;
+      for (var i=0; i<els.length; i++) {
+        if (!document.getElementById(els[i])) {
+          allExist = false;
+          break;
+        }
+      }
+      if (allExist) {
+        clearInterval(interval);
+        callback();
+      }
+      if (inc > giveupIterationCount) {
+        clearInterval(interval);
+      }
+      inc++;
+    }, 1);
+  },
 
-	shuffleArray: function(array) {
-		var currentIndex = array.length, tmpVal, randomIndex;
+  shuffleArray: function(array) {
+    var currentIndex = array.length, tmpVal, randomIndex;
 
-		while (0 !== currentIndex) {
-			randomIndex = Math.floor(Math.random() * currentIndex);
-			currentIndex -= 1;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
 
-			// and swap it with the current element
-			tmpVal = array[currentIndex];
-			array[currentIndex] = array[randomIndex];
-			array[randomIndex] = tmpVal;
-		}
-		return array;
-	},
+      // and swap it with the current element
+      tmpVal = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = tmpVal;
+    }
+    return array;
+  },
 
-	processObj: function(obj, is, value) {
-		if (typeof is === 'string') {
-			return helpers.processObj(obj, is.split('.'), value);
-		} else if (is.length === 1 && value !== undefined) {
+  processObj: function(obj, is, value) {
+    if (typeof is === 'string') {
+      return helpers.processObj(obj, is.split('.'), value);
+    } else if (is.length === 1 && value !== undefined) {
             obj[is[0]] = value;
-			return obj[is[0]];
-		} else if (is.length === 0) {
-			return obj;
-		} else {
-			return helpers.processObj(obj[is[0]], is.slice(1), value);
-		}
-	},
+      return obj[is[0]];
+    } else if (is.length === 0) {
+      return obj;
+    } else {
+      return helpers.processObj(obj[is[0]], is.slice(1), value);
+    }
+  },
 
-	getDimensions: function(id) {
-		var el = document.getElementById(id);
-		var w = 0, h = 0;
-		if (el) {
-			var dimensions = el.getBBox();
-			w = dimensions.width;
-			h = dimensions.height;
-		} else {
-			console.log("error: getDimensions() " + id + " not found.");
-		}
-		return { w: w, h: h };
-	},
+  getDimensions: function(id) {
+    var el = document.getElementById(id);
+    var w = 0, h = 0;
+    if (el) {
+      var dimensions = el.getBBox();
+      w = dimensions.width;
+      h = dimensions.height;
+    } else {
+      console.log("error: getDimensions() " + id + " not found.");
+    }
+    return { w: w, h: h };
+  },
 
-	/**
-	 * This is based on the SVG coordinate system, where top-left is 0,0 and bottom right is n-n.
-	 * @param r1
-	 * @param r2
-	 * @returns {boolean}
-	 */
-	rectIntersect: function(r1, r2) {
-		var returnVal = (
-			// r2.left > r1.right
-			(r2.x > (r1.x + r1.w)) ||
+  /**
+   * This is based on the SVG coordinate system, where top-left is 0,0 and bottom right is n-n.
+   * @param r1
+   * @param r2
+   * @returns {boolean}
+   */
+  rectIntersect: function(r1, r2) {
+    var returnVal = (
+      // r2.left > r1.right
+      (r2.x > (r1.x + r1.w)) ||
 
-			// r2.right < r1.left
-			((r2.x + r2.w) < r1.x) ||
+      // r2.right < r1.left
+      ((r2.x + r2.w) < r1.x) ||
 
-			// r2.top < r1.bottom
-			((r2.y + r2.h) < r1.y) ||
+      // r2.top < r1.bottom
+      ((r2.y + r2.h) < r1.y) ||
 
-			// r2.bottom > r1.top
-			(r2.y > (r1.y + r1.h))
-		);
+      // r2.bottom > r1.top
+      (r2.y > (r1.y + r1.h))
+    );
 
-		return !returnVal;
-	},
+    return !returnVal;
+  },
 
-	/**
-	 * Returns a lighter/darker shade of a hex value, based on a luminance value passed.
-	 * @param hex a hex color value such as “#abc” or “#123456″ (the hash is optional)
-	 * @param lum the luminosity factor: -0.1 is 10% darker, 0.2 is 20% lighter, etc.
-	 * @returns {string}
-	 */
-	getColorShade: function(hex, lum) {
+  /**
+   * Returns a lighter/darker shade of a hex value, based on a luminance value passed.
+   * @param hex a hex color value such as “#abc” or “#123456″ (the hash is optional)
+   * @param lum the luminosity factor: -0.1 is 10% darker, 0.2 is 20% lighter, etc.
+   * @returns {string}
+   */
+  getColorShade: function(hex, lum) {
 
-		// validate hex string
-		hex = String(hex).replace(/[^0-9a-f]/gi, '');
-		if (hex.length < 6) {
-			hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-		}
-		lum = lum || 0;
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+      hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    lum = lum || 0;
 
-		// convert to decimal and change luminosity
-		var newHex = "#";
-		for (var i=0; i<3; i++) {
-			var c = parseInt(hex.substr(i * 2, 2), 16);
-			c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
-			newHex += ("00" + c).substr(c.length);
-		}
+    // convert to decimal and change luminosity
+    var newHex = "#";
+    for (var i=0; i<3; i++) {
+      var c = parseInt(hex.substr(i * 2, 2), 16);
+      c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+      newHex += ("00" + c).substr(c.length);
+    }
 
-		return newHex;
-	},
+    return newHex;
+  },
 
-	/**
-	 * Users can choose to specify segment colors in three ways (in order of precedence):
-	 * 	1. include a "color" attribute for each row in data.content
-	 * 	2. include a misc.colors.segments property which contains an array of hex codes
-	 * 	3. specify nothing at all and rely on this lib provide some reasonable defaults
-	 *
-	 * This function sees what's included and populates this.options.colors with whatever's required
-	 * for this pie chart.
-	 * @param data
-	 */
-	initSegmentColors: function(pie) {
-		var data   = pie.options.data.content;
-		var colors = pie.options.misc.colors.segments;
+  /**
+   * Users can choose to specify segment colors in three ways (in order of precedence):
+   * 	1. include a "color" attribute for each row in data.content
+   * 	2. include a misc.colors.segments property which contains an array of hex codes
+   * 	3. specify nothing at all and rely on this lib provide some reasonable defaults
+   *
+   * This function sees what's included and populates this.options.colors with whatever's required
+   * for this pie chart.
+   * @param data
+   */
+  initSegmentColors: function(pie) {
+    var data   = pie.options.data.content;
+    var colors = pie.options.misc.colors.segments;
 
-		// TODO this needs a ton of error handling
+    // TODO this needs a ton of error handling
 
-		var finalColors = [];
-		for (var i=0; i<data.length; i++) {
-			if (data[i].hasOwnProperty("color")) {
-				finalColors.push(data[i].color);
-			} else {
-				finalColors.push(colors[i]);
-			}
-		}
+    var finalColors = [];
+    for (var i=0; i<data.length; i++) {
+      if (data[i].hasOwnProperty("color")) {
+        finalColors.push(data[i].color);
+      } else {
+        finalColors.push(colors[i]);
+      }
+    }
 
-		return finalColors;
-	},
+    return finalColors;
+  },
 
-	applySmallSegmentGrouping: function(data, smallSegmentGrouping) {
-		var totalSize;
-		if (smallSegmentGrouping.valueType === "percentage") {
-			totalSize = math.getTotalPieSize(data);
-		}
+  applySmallSegmentGrouping: function(data, smallSegmentGrouping) {
+    var totalSize;
+    if (smallSegmentGrouping.valueType === "percentage") {
+      totalSize = math.getTotalPieSize(data);
+    }
 
-		// loop through each data item
-		var newData = [];
-		var groupedData = [];
-		var totalGroupedData = 0;
-		for (var i=0; i<data.length; i++) {
-			if (smallSegmentGrouping.valueType === "percentage") {
-				var dataPercent = (data[i].value / totalSize) * 100;
-				if (dataPercent <= smallSegmentGrouping.value) {
-					groupedData.push(data[i]);
-					totalGroupedData += data[i].value;
-					continue;
-				}
-				data[i].isGrouped = false;
-				newData.push(data[i]);
-			} else {
-				if (data[i].value <= smallSegmentGrouping.value) {
-					groupedData.push(data[i]);
-					totalGroupedData += data[i].value;
-					continue;
-				}
-				data[i].isGrouped = false;
-				newData.push(data[i]);
-			}
-		}
+    // loop through each data item
+    var newData = [];
+    var groupedData = [];
+    var totalGroupedData = 0;
+    for (var i=0; i<data.length; i++) {
+      if (smallSegmentGrouping.valueType === "percentage") {
+        var dataPercent = (data[i].value / totalSize) * 100;
+        if (dataPercent <= smallSegmentGrouping.value) {
+          groupedData.push(data[i]);
+          totalGroupedData += data[i].value;
+          continue;
+        }
+        data[i].isGrouped = false;
+        newData.push(data[i]);
+      } else {
+        if (data[i].value <= smallSegmentGrouping.value) {
+          groupedData.push(data[i]);
+          totalGroupedData += data[i].value;
+          continue;
+        }
+        data[i].isGrouped = false;
+        newData.push(data[i]);
+      }
+    }
 
-		// we're done! See if there's any small segment groups to add
-		if (groupedData.length) {
-			newData.push({
-				color: smallSegmentGrouping.color,
-				label: smallSegmentGrouping.label,
-				value: totalGroupedData,
-				isGrouped: true,
-				groupedData: groupedData
-			});
-		}
+    // we're done! See if there's any small segment groups to add
+    if (groupedData.length) {
+      newData.push({
+        color: smallSegmentGrouping.color,
+        label: smallSegmentGrouping.label,
+        value: totalGroupedData,
+        isGrouped: true,
+        groupedData: groupedData
+      });
+    }
 
-		return newData;
-	},
+    return newData;
+  },
 
-	// for debugging
-	showPoint: function(svg, x, y) {
-		svg.append("circle").attr("cx", x).attr("cy", y).attr("r", 2).style("fill", "black");
-	},
+  // for debugging
+  showPoint: function(svg, x, y) {
+    svg.append("circle").attr("cx", x).attr("cy", y).attr("r", 2).style("fill", "black");
+  },
 
-	isFunction: function(functionToCheck) {
-		var getType = {};
-		return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-	},
+  isFunction: function(functionToCheck) {
+    var getType = {};
+    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+  },
 
-	isArray: function(o) {
-		return Object.prototype.toString.call(o) === '[object Array]';
-	}
+  isArray: function(o) {
+    return Object.prototype.toString.call(o) === '[object Array]';
+  },
+
+  isString: function(o) {
+    return Object.prototype.toString.call(o) === '[object String]';
+  }
 };
 
 
 // taken from jQuery
 var extend = function() {
-	var options, name, src, copy, copyIsArray, clone, target = arguments[0] || {},
-		i = 1,
-		length = arguments.length,
-		deep = false,
-		toString = Object.prototype.toString,
-		hasOwn = Object.prototype.hasOwnProperty,
-		class2type = {
-			"[object Boolean]": "boolean",
-			"[object Number]": "number",
-			"[object String]": "string",
-			"[object Function]": "function",
-			"[object Array]": "array",
-			"[object Date]": "date",
-			"[object RegExp]": "regexp",
-			"[object Object]": "object"
-		},
+  var options, name, src, copy, copyIsArray, clone, target = arguments[0] || {},
+    i = 1,
+    length = arguments.length,
+    deep = false,
+    toString = Object.prototype.toString,
+    hasOwn = Object.prototype.hasOwnProperty,
+    class2type = {
+      "[object Boolean]": "boolean",
+      "[object Number]": "number",
+      "[object String]": "string",
+      "[object Function]": "function",
+      "[object Array]": "array",
+      "[object Date]": "date",
+      "[object RegExp]": "regexp",
+      "[object Object]": "object"
+    },
 
-		jQuery = {
-			isFunction: function (obj) {
-				return jQuery.type(obj) === "function";
-			},
-			isArray: Array.isArray ||
-				function (obj) {
-					return jQuery.type(obj) === "array";
-				},
-			isWindow: function (obj) {
-				return obj !== null && obj === obj.window;
-			},
-			isNumeric: function (obj) {
-				return !isNaN(parseFloat(obj)) && isFinite(obj);
-			},
-			type: function (obj) {
-				return obj === null ? String(obj) : class2type[toString.call(obj)] || "object";
-			},
-			isPlainObject: function (obj) {
-				if (!obj || jQuery.type(obj) !== "object" || obj.nodeType) {
-					return false;
-				}
-				try {
-					if (obj.constructor && !hasOwn.call(obj, "constructor") && !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
-						return false;
-					}
-				} catch (e) {
-					return false;
-				}
-				var key;
-				for (key in obj) {}
-				return key === undefined || hasOwn.call(obj, key);
-			}
-		};
-	if (typeof target === "boolean") {
-		deep = target;
-		target = arguments[1] || {};
-		i = 2;
-	}
-	if (typeof target !== "object" && !jQuery.isFunction(target)) {
-		target = {};
-	}
-	if (length === i) {
-		target = this;
-		--i;
-	}
-	for (i; i < length; i++) {
-		if ((options = arguments[i]) !== null) {
-			for (name in options) {
-				src = target[name];
-				copy = options[name];
-				if (target === copy) {
-					continue;
-				}
-				if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
-					if (copyIsArray) {
-						copyIsArray = false;
-						clone = src && jQuery.isArray(src) ? src : [];
-					} else {
-						clone = src && jQuery.isPlainObject(src) ? src : {};
-					}
-					// WARNING: RECURSION
-					target[name] = extend(deep, clone, copy);
-				} else if (copy !== undefined) {
-					target[name] = copy;
-				}
-			}
-		}
-	}
-	return target;
+    jQuery = {
+      isFunction: function (obj) {
+        return jQuery.type(obj) === "function";
+      },
+      isArray: Array.isArray ||
+        function (obj) {
+          return jQuery.type(obj) === "array";
+        },
+      isWindow: function (obj) {
+        return obj !== null && obj === obj.window;
+      },
+      isNumeric: function (obj) {
+        return !isNaN(parseFloat(obj)) && isFinite(obj);
+      },
+      type: function (obj) {
+        return obj === null ? String(obj) : class2type[toString.call(obj)] || "object";
+      },
+      isPlainObject: function (obj) {
+        if (!obj || jQuery.type(obj) !== "object" || obj.nodeType) {
+          return false;
+        }
+        try {
+          if (obj.constructor && !hasOwn.call(obj, "constructor") && !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
+            return false;
+          }
+        } catch (e) {
+          return false;
+        }
+        var key;
+        for (key in obj) {}
+        return key === undefined || hasOwn.call(obj, key);
+      }
+    };
+  if (typeof target === "boolean") {
+    deep = target;
+    target = arguments[1] || {};
+    i = 2;
+  }
+  if (typeof target !== "object" && !jQuery.isFunction(target)) {
+    target = {};
+  }
+  if (length === i) {
+    target = this;
+    --i;
+  }
+  for (i; i < length; i++) {
+    if ((options = arguments[i]) !== null) {
+      for (name in options) {
+        src = target[name];
+        copy = options[name];
+        if (target === copy) {
+          continue;
+        }
+        if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
+          if (copyIsArray) {
+            copyIsArray = false;
+            clone = src && jQuery.isArray(src) ? src : [];
+          } else {
+            clone = src && jQuery.isPlainObject(src) ? src : {};
+          }
+          // WARNING: RECURSION
+          target[name] = extend(deep, clone, copy);
+        } else if (copy !== undefined) {
+          target[name] = copy;
+        }
+      }
+    }
+  }
+  return target;
 };
-	//// --------- math.js -----------
+
+  //// --------- math.js -----------
 var math = {
 
 	toRadians: function(degrees) {
@@ -782,7 +787,7 @@ var math = {
 	}
 };
 
-	//// --------- labels.js -----------
+  //// --------- labels.js -----------
 var labels = {
 
   /**
@@ -1303,7 +1308,7 @@ var labels = {
   }
 };
 
-	//// --------- segments.js -----------
+  //// --------- segments.js -----------
 var segments = {
 
   /**
@@ -1598,184 +1603,241 @@ var segments = {
 
 };
 
-	//// --------- text.js -----------
+  //// --------- text.js -----------
 var text = {
-	offscreenCoord: -10000,
+  offscreenCoord: -10000,
 
-	addTitle: function(pie) {
-		var title = pie.svg.selectAll("." + pie.cssPrefix + "title")
-			.data([pie.options.header.title])
-			.enter()
-			.append("text")
-			.text(function(d) { return d.text; })
-			.attr({
+  addTitle: function(pie) {
+    var title = pie.svg.selectAll("." + pie.cssPrefix + "title")
+      .data([pie.options.header.title])
+      .enter()
+      .append("text")
+      .text(function(d) { return d.text; })
+      .attr({
         id: pie.cssPrefix + "title",
         class: pie.cssPrefix + "title",
         x: text.offscreenCoord,
         y: text.offscreenCoord
       })
-			.attr("text-anchor", function() {
-				var location;
-				if (pie.options.header.location === "top-center" || pie.options.header.location === "pie-center") {
-					location = "middle";
-				} else {
-					location = "left";
-				}
-				return location;
-			})
-			.attr("fill", function(d) { return d.color; })
-			.style("font-size", function(d) { return d.fontSize + "px"; })
-			.style("font-family", function(d) { return d.font; });
-	},
+      .attr("text-anchor", function() {
+        var location;
+        if (pie.options.header.location === "top-center" || pie.options.header.location === "pie-center") {
+          location = "middle";
+        } else {
+          location = "left";
+        }
+        return location;
+      })
+      .attr("fill", function(d) { return d.color; })
+      .style("font-size", function(d) { return d.fontSize + "px"; })
+      .style("font-family", function(d) { return d.font; });
+  },
 
-	positionTitle: function(pie) {
-		var textComponents = pie.textComponents;
-		var headerLocation = pie.options.header.location;
-		var canvasPadding = pie.options.misc.canvasPadding;
-		var canvasWidth = pie.options.size.canvasWidth;
-		var titleSubtitlePadding = pie.options.header.titleSubtitlePadding;
+  positionTitle: function(pie) {
+    var textComponents = pie.textComponents;
+    var headerLocation = pie.options.header.location;
+    var canvasPadding = pie.options.misc.canvasPadding;
+    var canvasWidth = pie.options.size.canvasWidth;
+    var titleSubtitlePadding = pie.options.header.titleSubtitlePadding;
 
-		var x;
-		if (headerLocation === "top-left") {
-			x = canvasPadding.left;
-		} else {
-			x = ((canvasWidth - canvasPadding.right) / 2) + canvasPadding.left;
-		}
-
-    // add whatever offset has been added by user
-    x += pie.options.misc.pieCenterOffset.x;
-
-		var y = canvasPadding.top + textComponents.title.h;
-
-		if (headerLocation === "pie-center") {
-			y = pie.pieCenter.y;
-
-			// still not fully correct
-			if (textComponents.subtitle.exists) {
-				var totalTitleHeight = textComponents.title.h + titleSubtitlePadding + textComponents.subtitle.h;
-				y = y - (totalTitleHeight / 2) + textComponents.title.h;
-			} else {
-				y += (textComponents.title.h / 4);
-			}
-		}
-
-		pie.svg.select("#" + pie.cssPrefix + "title")
-			.attr("x", x)
-			.attr("y", y);
-	},
-
-	addSubtitle: function(pie) {
-		var headerLocation = pie.options.header.location;
-
-		pie.svg.selectAll("." + pie.cssPrefix + "subtitle")
-			.data([pie.options.header.subtitle])
-			.enter()
-			.append("text")
-			.text(function(d) { return d.text; })
-			.attr("x", text.offscreenCoord)
-			.attr("y", text.offscreenCoord)
-			.attr("id", pie.cssPrefix + "subtitle")
-			.attr("class", pie.cssPrefix + "subtitle")
-			.attr("text-anchor", function() {
-				var location;
-				if (headerLocation === "top-center" || headerLocation === "pie-center") {
-					location = "middle";
-				} else {
-					location = "left";
-				}
-				return location;
-			})
-			.attr("fill", function(d) { return d.color; })
-			.style("font-size", function(d) { return d.fontSize + "px"; })
-			.style("font-family", function(d) { return d.font; });
-	},
-
-	positionSubtitle: function(pie) {
-		var canvasPadding = pie.options.misc.canvasPadding;
-		var canvasWidth = pie.options.size.canvasWidth;
-
-		var x;
-		if (pie.options.header.location === "top-left") {
-			x = canvasPadding.left;
-		} else {
-			x = ((canvasWidth - canvasPadding.right) / 2) + canvasPadding.left;
-		}
+    var x;
+    if (headerLocation === "top-left") {
+      x = canvasPadding.left;
+    } else {
+      x = ((canvasWidth - canvasPadding.right) / 2) + canvasPadding.left;
+    }
 
     // add whatever offset has been added by user
     x += pie.options.misc.pieCenterOffset.x;
 
-		var y = text.getHeaderHeight(pie);
-		pie.svg.select("#" + pie.cssPrefix + "subtitle")
-			.attr("x", x)
-			.attr("y", y);
-	},
+    var y = canvasPadding.top + textComponents.title.h;
 
-	addFooter: function(pie) {
-		pie.svg.selectAll("." + pie.cssPrefix + "footer")
-			.data([pie.options.footer])
-			.enter()
-			.append("text")
-			.text(function(d) { return d.text; })
-			.attr("x", text.offscreenCoord)
-			.attr("y", text.offscreenCoord)
-			.attr("id", pie.cssPrefix + "footer")
-			.attr("class", pie.cssPrefix + "footer")
-			.attr("text-anchor", function() {
-				var location = "left";
-				if (pie.options.footer.location === "bottom-center") {
-					location = "middle";
-				} else if (pie.options.footer.location === "bottom-right") {
-					location = "left"; // on purpose. We have to change the x-coord to make it properly right-aligned
-				}
-				return location;
-			})
-			.attr("fill", function(d) { return d.color; })
-			.style("font-size", function(d) { return d.fontSize + "px"; })
-			.style("font-family", function(d) { return d.font; });
-	},
+    if (headerLocation === "pie-center") {
+      y = pie.pieCenter.y;
 
-	positionFooter: function(pie) {
-		var footerLocation = pie.options.footer.location;
-		var footerWidth = pie.textComponents.footer.w;
-		var canvasWidth = pie.options.size.canvasWidth;
-		var canvasHeight = pie.options.size.canvasHeight;
-		var canvasPadding = pie.options.misc.canvasPadding;
+      // still not fully correct
+      if (textComponents.subtitle.exists || textComponents.subtitleMultiLine.exists) {
+        var subtitleHeight = textComponents.subtitleMultiLine.exists ? textComponents.subtitleMultiLine.h : textComponents.subtitle.h;
+        var totalTitleHeight = textComponents.title.h + titleSubtitlePadding + subtitleHeight;
+        y = y - (totalTitleHeight / 2) + textComponents.title.h;
+      } else {
+        y += (textComponents.title.h / 4);
+      }
+    }
 
-		var x;
-		if (footerLocation === "bottom-left") {
-			x = canvasPadding.left;
-		} else if (footerLocation === "bottom-right") {
-			x = canvasWidth - footerWidth - canvasPadding.right;
-		} else {
-			x = canvasWidth / 2; // TODO - shouldn't this also take into account padding?
-		}
+    pie.svg.select("#" + pie.cssPrefix + "title")
+      .attr("x", x)
+      .attr("y", y);
+  },
 
-		pie.svg.select("#" + pie.cssPrefix + "footer")
-			.attr("x", x)
-			.attr("y", canvasHeight - canvasPadding.bottom);
-	},
+  addSubtitle: function(pie) {
+    var headerLocation = pie.options.header.location;
 
-	getHeaderHeight: function(pie) {
-		var h;
-		if (pie.textComponents.title.exists) {
+    pie.svg.selectAll("." + pie.cssPrefix + "subtitle")
+      .data([pie.options.header.subtitle])
+      .enter()
+      .append("text")
+      .text(function(d) { return d.text; })
+      .attr("x", text.offscreenCoord)
+      .attr("y", text.offscreenCoord)
+      .attr("id", pie.cssPrefix + "subtitle")
+      .attr("class", pie.cssPrefix + "subtitle")
+      .attr("text-anchor", function() {
+        var location;
+        if (headerLocation === "top-center" || headerLocation === "pie-center") {
+          location = "middle";
+        } else {
+          location = "left";
+        }
+        return location;
+      })
+      .attr("fill", function(d) { return d.color; })
+      .style("font-size", function(d) { return d.fontSize + "px"; })
+      .style("font-family", function(d) { return d.font; });
+  },
 
-			// if the subtitle isn't defined, it'll be set to 0
-			var totalTitleHeight = pie.textComponents.title.h + pie.options.header.titleSubtitlePadding + pie.textComponents.subtitle.h;
-			if (pie.options.header.location === "pie-center") {
-				h = pie.pieCenter.y - (totalTitleHeight / 2) + totalTitleHeight;
-			} else {
-				h = totalTitleHeight + pie.options.misc.canvasPadding.top;
-			}
-		} else {
-			if (pie.options.header.location === "pie-center") {
-				var footerPlusPadding = pie.options.misc.canvasPadding.bottom + pie.textComponents.footer.h;
-				h = ((pie.options.size.canvasHeight - footerPlusPadding) / 2) + pie.options.misc.canvasPadding.top + (pie.textComponents.subtitle.h / 2);
-			} else {
-				h = pie.options.misc.canvasPadding.top + pie.textComponents.subtitle.h;
-			}
-		}
-		return h;
-	}
+  positionSubtitle: function(pie) {
+    var canvasPadding = pie.options.misc.canvasPadding;
+    var canvasWidth = pie.options.size.canvasWidth;
+
+    var x;
+    if (pie.options.header.location === "top-left") {
+      x = canvasPadding.left;
+    } else {
+      x = ((canvasWidth - canvasPadding.right) / 2) + canvasPadding.left;
+    }
+
+    // add whatever offset has been added by user
+    x += pie.options.misc.pieCenterOffset.x;
+
+    var y = text.getHeaderHeight(pie);
+    pie.svg.select("#" + pie.cssPrefix + "subtitle")
+      .attr("x", x)
+      .attr("y", y);
+  },
+
+  addFooter: function(pie) {
+    pie.svg.selectAll("." + pie.cssPrefix + "footer")
+      .data([pie.options.footer])
+      .enter()
+      .append("text")
+      .text(function(d) { return d.text; })
+      .attr("x", text.offscreenCoord)
+      .attr("y", text.offscreenCoord)
+      .attr("id", pie.cssPrefix + "footer")
+      .attr("class", pie.cssPrefix + "footer")
+      .attr("text-anchor", function() {
+        var location = "left";
+        if (pie.options.footer.location === "bottom-center") {
+          location = "middle";
+        } else if (pie.options.footer.location === "bottom-right") {
+          location = "left"; // on purpose. We have to change the x-coord to make it properly right-aligned
+        }
+        return location;
+      })
+      .attr("fill", function(d) { return d.color; })
+      .style("font-size", function(d) { return d.fontSize + "px"; })
+      .style("font-family", function(d) { return d.font; });
+  },
+
+  positionFooter: function(pie) {
+    var footerLocation = pie.options.footer.location;
+    var footerWidth = pie.textComponents.footer.w;
+    var canvasWidth = pie.options.size.canvasWidth;
+    var canvasHeight = pie.options.size.canvasHeight;
+    var canvasPadding = pie.options.misc.canvasPadding;
+
+    var x;
+    if (footerLocation === "bottom-left") {
+      x = canvasPadding.left;
+    } else if (footerLocation === "bottom-right") {
+      x = canvasWidth - footerWidth - canvasPadding.right;
+    } else {
+      x = canvasWidth / 2; // TODO - shouldn't this also take into account padding?
+    }
+
+    pie.svg.select("#" + pie.cssPrefix + "footer")
+      .attr("x", x)
+      .attr("y", canvasHeight - canvasPadding.bottom);
+  },
+
+  getHeaderHeight: function(pie) {
+    var h;
+    if (pie.textComponents.title.exists) {
+
+      // if the subtitle isn't defined, it'll be set to 0
+      var totalTitleHeight = pie.textComponents.title.h + pie.options.header.titleSubtitlePadding + pie.textComponents.subtitle.h;
+      if (pie.options.header.location === "pie-center") {
+        h = pie.pieCenter.y - (totalTitleHeight / 2) + totalTitleHeight;
+      } else {
+        h = totalTitleHeight + pie.options.misc.canvasPadding.top;
+      }
+    } else {
+      if (pie.options.header.location === "pie-center") {
+        var footerPlusPadding = pie.options.misc.canvasPadding.bottom + pie.textComponents.footer.h;
+        h = ((pie.options.size.canvasHeight - footerPlusPadding) / 2) + pie.options.misc.canvasPadding.top + (pie.textComponents.subtitle.h / 2);
+      } else {
+        h = pie.options.misc.canvasPadding.top + pie.textComponents.subtitle.h;
+      }
+    }
+    return h;
+  },
+
+  addSubtitleMultiLineText: function(pie) {
+    var headerLocation = pie.options.header.location;
+    pie.svg.selectAll("." + pie.cssPrefix + "subtitle")
+      .data([0])
+      .enter()
+      .append("text")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("id", pie.cssPrefix + "subtitle")
+      .attr("class", pie.cssPrefix + "subtitle")
+      .attr("text-anchor", function() {
+        var location;
+        if (headerLocation === "top-center" || headerLocation === "pie-center") {
+          location = "middle";
+        } else {
+          location = "left";
+        }
+        return location;
+      })
+      .selectAll('tspan')
+        .data(pie.options.header.subtitleMultiLine)
+        .enter()
+        .append('tspan')
+        .text(function(d, i) {
+          return d.text;
+        })
+        .attr("x", 0)
+        .attr("dy", function(d, i) { return this.offsetHeight + d.bottomPadding; })
+        .attr("fill", function(d) { return d.color; })
+        .style("font-size", function(d) { return d.fontSize + "px"; })
+        .style("font-family", function(d) { return d.font; });
+  },
+
+  positionSubtitleMultiLineText: function(pie) {
+
+    var canvasPadding = pie.options.misc.canvasPadding;
+    var canvasWidth = pie.options.size.canvasWidth;
+
+    var x;
+    if (pie.options.header.location === "top-left") {
+      x = canvasPadding.left;
+    } else {
+      x = ((canvasWidth - canvasPadding.right) / 2) + canvasPadding.left;
+    }
+
+    // add whatever offset has been added by user
+    x += pie.options.misc.pieCenterOffset.x;
+
+    var title = document.getElementById(pie.cssPrefix + 'title');
+    var y = title.offsetTop + pie.options.header.titleSubtitlePadding;
+
+    pie.svg.select("#" + pie.cssPrefix + "subtitle")
+      .attr("transform", "translate(" + x + ", " + y + ")");
+
+  }
 };
 
   //// --------- validate.js -----------
@@ -1901,276 +1963,294 @@ var tt = {
 };
 
 
-	// --------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------------------
 
-	// our constructor
-	var d3pie = function(element, options) {
+  // our constructor
+  var d3pie = function(element, options) {
 
-		// element can be an ID or DOM element
-		this.element = element;
-		if (typeof element === "string") {
-			var el = element.replace(/^#/, ""); // replace any jQuery-like ID hash char
-			this.element = document.getElementById(el);
-		}
+    // element can be an ID or DOM element
+    this.element = element;
+    if (typeof element === "string") {
+      var el = element.replace(/^#/, ""); // replace any jQuery-like ID hash char
+      this.element = document.getElementById(el);
+    }
 
-		var opts = {};
-		extend(true, opts, defaultSettings, options);
-		this.options = opts;
+    var opts = {};
+    extend(true, opts, defaultSettings, options);
+    this.options = opts;
 
-		// if the user specified a custom CSS element prefix (ID, class), use it
-		if (this.options.misc.cssPrefix !== null) {
-			this.cssPrefix = this.options.misc.cssPrefix;
-		} else {
-			this.cssPrefix = "p" + _uniqueIDCounter + "_";
-			_uniqueIDCounter++;
-		}
-
-
-		// now run some validation on the user-defined info
-		if (!validate.initialCheck(this)) {
-			return;
-		}
-
-		// add a data-role to the DOM node to let anyone know that it contains a d3pie instance, and the d3pie version
-		d3.select(this.element).attr(_scriptName, _version);
-
-		// things that are done once
-		this.options.data.content = math.sortPieData(this);
-		if (this.options.data.smallSegmentGrouping.enabled) {
-			this.options.data.content = helpers.applySmallSegmentGrouping(this.options.data.content, this.options.data.smallSegmentGrouping);
-		}
-		this.options.colors = helpers.initSegmentColors(this);
-		this.totalSize      = math.getTotalPieSize(this.options.data.content);
-
-		_init.call(this);
-	};
-
-	d3pie.prototype.recreate = function() {
-		// now run some validation on the user-defined info
-		if (!validate.initialCheck(this)) {
-			return;
-		}
-		this.options.data.content = math.sortPieData(this);
-		if (this.options.data.smallSegmentGrouping.enabled) {
-			this.options.data.content = helpers.applySmallSegmentGrouping(this.options.data.content, this.options.data.smallSegmentGrouping);
-		}
-		this.options.colors = helpers.initSegmentColors(this);
-		this.totalSize      = math.getTotalPieSize(this.options.data.content);
-
-		_init.call(this);
-	};
-
-	d3pie.prototype.redraw = function() {
-		this.element.innerHTML = "";
-		_init.call(this);
-	};
-
-	d3pie.prototype.destroy = function() {
-		this.element.innerHTML = ""; // clear out the SVG
-		d3.select(this.element).attr(_scriptName, null); // remove the data attr
-	};
-
-	/**
-	 * Returns all pertinent info about the current open info. Returns null if nothing's open, or if one is, an object of
-	 * the following form:
-	 * 	{
-	 * 	  element: DOM NODE,
-	 * 	  index: N,
-	 * 	  data: {}
-	 * 	}
-	 */
-	d3pie.prototype.getOpenSegment = function() {
-		var segment = this.currentlyOpenSegment;
-		if (segment !== null && typeof segment !== "undefined") {
-			var index = parseInt(d3.select(segment).attr("data-index"), 10);
-			return {
-				element: segment,
-				index: index,
-				data: this.options.data.content[index]
-			};
-		} else {
-			return null;
-		}
-	};
-
-	d3pie.prototype.openSegment = function(index) {
-		index = parseInt(index, 10);
-		if (index < 0 || index > this.options.data.content.length-1) {
-			return;
-		}
-		segments.openSegment(this, d3.select("#" + this.cssPrefix + "segment" + index).node());
-	};
-
-	d3pie.prototype.closeSegment = function() {
-		var segment = this.currentlyOpenSegment;
-		if (segment) {
-			segments.closeSegment(this, segment);
-		}
-	};
-
-	// this let's the user dynamically update aspects of the pie chart without causing a complete redraw. It
-	// intelligently re-renders only the part of the pie that the user specifies. Some things cause a repaint, others
-	// just redraw the single element
-	d3pie.prototype.updateProp = function(propKey, value) {
-		switch (propKey) {
-			case "header.title.text":
-				var oldVal = helpers.processObj(this.options, propKey);
-				helpers.processObj(this.options, propKey, value);
-				d3.select("#" + this.cssPrefix + "title").html(value);
-				if ((oldVal === "" && value !== "") || (oldVal !== "" && value === "")) {
-					this.redraw();
-				}
-				break;
-
-			case "header.subtitle.text":
-				var oldValue = helpers.processObj(this.options, propKey);
-				helpers.processObj(this.options, propKey, value);
-				d3.select("#" + this.cssPrefix + "subtitle").html(value);
-				if ((oldValue === "" && value !== "") || (oldValue !== "" && value === "")) {
-					this.redraw();
-				}
-				break;
-
-			case "callbacks.onload":
-			case "callbacks.onMouseoverSegment":
-			case "callbacks.onMouseoutSegment":
-			case "callbacks.onClickSegment":
-			case "effects.pullOutSegmentOnClick.effect":
-			case "effects.pullOutSegmentOnClick.speed":
-			case "effects.pullOutSegmentOnClick.size":
-			case "effects.highlightSegmentOnMouseover":
-			case "effects.highlightLuminosity":
-				helpers.processObj(this.options, propKey, value);
-				break;
-
-			// everything else, attempt to update it & do a repaint
-			default:
-				helpers.processObj(this.options, propKey, value);
-
-				this.destroy();
-				this.recreate();
-				break;
-		}
-	};
+    // if the user specified a custom CSS element prefix (ID, class), use it
+    if (this.options.misc.cssPrefix !== null) {
+      this.cssPrefix = this.options.misc.cssPrefix;
+    } else {
+      this.cssPrefix = "p" + _uniqueIDCounter + "_";
+      _uniqueIDCounter++;
+    }
 
 
-	// ------------------------------------------------------------------------------------------------
+    // now run some validation on the user-defined info
+    if (!validate.initialCheck(this)) {
+      return;
+    }
+
+    // add a data-role to the DOM node to let anyone know that it contains a d3pie instance, and the d3pie version
+    d3.select(this.element).attr(_scriptName, _version);
+
+    // things that are done once
+    this.options.data.content = math.sortPieData(this);
+    if (this.options.data.smallSegmentGrouping.enabled) {
+      this.options.data.content = helpers.applySmallSegmentGrouping(this.options.data.content, this.options.data.smallSegmentGrouping);
+    }
+    this.options.colors = helpers.initSegmentColors(this);
+    this.totalSize      = math.getTotalPieSize(this.options.data.content);
+
+    _init.call(this);
+  };
+
+  d3pie.prototype.recreate = function() {
+    // now run some validation on the user-defined info
+    if (!validate.initialCheck(this)) {
+      return;
+    }
+    this.options.data.content = math.sortPieData(this);
+    if (this.options.data.smallSegmentGrouping.enabled) {
+      this.options.data.content = helpers.applySmallSegmentGrouping(this.options.data.content, this.options.data.smallSegmentGrouping);
+    }
+    this.options.colors = helpers.initSegmentColors(this);
+    this.totalSize      = math.getTotalPieSize(this.options.data.content);
+
+    _init.call(this);
+  };
+
+  d3pie.prototype.redraw = function() {
+    this.element.innerHTML = "";
+    _init.call(this);
+  };
+
+  d3pie.prototype.destroy = function() {
+    this.element.innerHTML = ""; // clear out the SVG
+    d3.select(this.element).attr(_scriptName, null); // remove the data attr
+  };
+
+  /**
+   * Returns all pertinent info about the current open info. Returns null if nothing's open, or if one is, an object of
+   * the following form:
+   * 	{
+   * 	  element: DOM NODE,
+   * 	  index: N,
+   * 	  data: {}
+   * 	}
+   */
+  d3pie.prototype.getOpenSegment = function() {
+    var segment = this.currentlyOpenSegment;
+    if (segment !== null && typeof segment !== "undefined") {
+      var index = parseInt(d3.select(segment).attr("data-index"), 10);
+      return {
+        element: segment,
+        index: index,
+        data: this.options.data.content[index]
+      };
+    } else {
+      return null;
+    }
+  };
+
+  d3pie.prototype.openSegment = function(index) {
+    index = parseInt(index, 10);
+    if (index < 0 || index > this.options.data.content.length-1) {
+      return;
+    }
+    segments.openSegment(this, d3.select("#" + this.cssPrefix + "segment" + index).node());
+  };
+
+  d3pie.prototype.closeSegment = function() {
+    var segment = this.currentlyOpenSegment;
+    if (segment) {
+      segments.closeSegment(this, segment);
+    }
+  };
+
+  // this let's the user dynamically update aspects of the pie chart without causing a complete redraw. It
+  // intelligently re-renders only the part of the pie that the user specifies. Some things cause a repaint, others
+  // just redraw the single element
+  d3pie.prototype.updateProp = function(propKey, value) {
+    switch (propKey) {
+      case "header.title.text":
+        var oldVal = helpers.processObj(this.options, propKey);
+        helpers.processObj(this.options, propKey, value);
+        d3.select("#" + this.cssPrefix + "title").html(value);
+        if ((oldVal === "" && value !== "") || (oldVal !== "" && value === "")) {
+          this.redraw();
+        }
+        break;
+
+      case "header.subtitle.text":
+        var oldValue = helpers.processObj(this.options, propKey);
+        helpers.processObj(this.options, propKey, value);
+        d3.select("#" + this.cssPrefix + "subtitle").html(value);
+        if ((oldValue === "" && value !== "") || (oldValue !== "" && value === "")) {
+          this.redraw();
+        }
+        break;
+
+      case "callbacks.onload":
+      case "callbacks.onMouseoverSegment":
+      case "callbacks.onMouseoutSegment":
+      case "callbacks.onClickSegment":
+      case "effects.pullOutSegmentOnClick.effect":
+      case "effects.pullOutSegmentOnClick.speed":
+      case "effects.pullOutSegmentOnClick.size":
+      case "effects.highlightSegmentOnMouseover":
+      case "effects.highlightLuminosity":
+        helpers.processObj(this.options, propKey, value);
+        break;
+
+      // everything else, attempt to update it & do a repaint
+      default:
+        helpers.processObj(this.options, propKey, value);
+
+        this.destroy();
+        this.recreate();
+        break;
+    }
+  };
 
 
-	var _init = function() {
+  // ------------------------------------------------------------------------------------------------
 
-		// prep-work
-		this.svg = helpers.addSVGSpace(this);
 
-		// store info about the main text components as part of the d3pie object instance
-		this.textComponents = {
-			headerHeight: 0,
-			title: {
-				exists: this.options.header.title.text !== "",
-				h: 0,
-				w: 0
-			},
-			subtitle: {
-				exists: this.options.header.subtitle.text !== "",
-				h: 0,
-				w: 0
-			},
-			footer: {
-				exists: this.options.footer.text !== "",
-				h: 0,
-				w: 0
-			}
-		};
+  var _init = function() {
 
-		this.outerLabelGroupData = [];
+    // prep-work
+    this.svg = helpers.addSVGSpace(this);
 
-		// add the key text components offscreen (title, subtitle, footer). We need to know their widths/heights for later computation
-		if (this.textComponents.title.exists) {
-			text.addTitle(this);
-		}
-		if (this.textComponents.subtitle.exists) {
-			text.addSubtitle(this);
-		}
-		text.addFooter(this);
+    // store info about the main text components as part of the d3pie object instance
+    this.textComponents = {
+      headerHeight: 0,
+      title: {
+        exists: this.options.header.title.text !== "",
+        h: 0,
+        w: 0
+      },
+      subtitle: {
+        exists: this.options.header.subtitle.text !== "",
+        h: 0,
+        w: 0
+      },
+      subtitleMultiLine: {
+        exists: this.options.header.subtitleMultiLine !== undefined,
+        h: 0,
+        w: 0
+      },
+      footer: {
+        exists: this.options.footer.text !== "",
+        h: 0,
+        w: 0
+      }
+    };
 
-		// the footer never moves. Put it in place now
-		var self = this;
-		helpers.whenIdExists(this.cssPrefix + "footer", function() {
-			text.positionFooter(self);
-			var d3 = helpers.getDimensions(self.cssPrefix + "footer");
-			self.textComponents.footer.h = d3.h;
-			self.textComponents.footer.w = d3.w;
-		});
+    this.outerLabelGroupData = [];
 
-		// now create the pie chart and position everything accordingly
-		var reqEls = [];
-		if (this.textComponents.title.exists)    { reqEls.push(this.cssPrefix + "title"); }
-		if (this.textComponents.subtitle.exists) { reqEls.push(this.cssPrefix + "subtitle"); }
-		if (this.textComponents.footer.exists)   { reqEls.push(this.cssPrefix + "footer"); }
+    // add the key text components offscreen (title, subtitle, footer). We need to know their widths/heights for later computation
+    if (this.textComponents.title.exists) {
+      text.addTitle(this);
+    }
+    // TODO não pode ter subtitle e subtitle multiline ao mesmo tempo.
+    if (this.textComponents.subtitle.exists) {
+      text.addSubtitle(this);
+    }
+    if (this.textComponents.subtitleMultiLine.exists) {
+      text.addSubtitleMultiLineText(this);
+    }
+    text.addFooter(this);
 
-		helpers.whenElementsExist(reqEls, function() {
-			if (self.textComponents.title.exists) {
-				var d1 = helpers.getDimensions(self.cssPrefix + "title");
-				self.textComponents.title.h = d1.h;
-				self.textComponents.title.w = d1.w;
-			}
-			if (self.textComponents.subtitle.exists) {
-				var d2 = helpers.getDimensions(self.cssPrefix + "subtitle");
-				self.textComponents.subtitle.h = d2.h;
-				self.textComponents.subtitle.w = d2.w;
-			}
-			// now compute the full header height
-			if (self.textComponents.title.exists || self.textComponents.subtitle.exists) {
-				var headerHeight = 0;
-				if (self.textComponents.title.exists) {
-					headerHeight += self.textComponents.title.h;
-					if (self.textComponents.subtitle.exists) {
-						headerHeight += self.options.header.titleSubtitlePadding;
-					}
-				}
-				if (self.textComponents.subtitle.exists) {
-					headerHeight += self.textComponents.subtitle.h;
-				}
-				self.textComponents.headerHeight = headerHeight;
-			}
+    // the footer never moves. Put it in place now
+    var self = this;
+    helpers.whenIdExists(this.cssPrefix + "footer", function() {
+      text.positionFooter(self);
+      var d3 = helpers.getDimensions(self.cssPrefix + "footer");
+      self.textComponents.footer.h = d3.h;
+      self.textComponents.footer.w = d3.w;
+    });
 
-			// at this point, all main text component dimensions have been calculated
-			math.computePieRadius(self);
+    // now create the pie chart and position everything accordingly
+    var reqEls = [];
+    if (this.textComponents.title.exists)    { reqEls.push(this.cssPrefix + "title"); }
+    if (this.textComponents.subtitle.exists) { reqEls.push(this.cssPrefix + "subtitle"); }
+    if (this.textComponents.footer.exists)   { reqEls.push(this.cssPrefix + "footer"); }
 
-			// this value is used all over the place for placing things and calculating locations. We figure it out ONCE
-			// and store it as part of the object
-			math.calculatePieCenter(self);
+    helpers.whenElementsExist(reqEls, function() {
+      if (self.textComponents.title.exists) {
+        var d1 = helpers.getDimensions(self.cssPrefix + "title");
+        self.textComponents.title.h = d1.h;
+        self.textComponents.title.w = d1.w;
+      }
+      if (self.textComponents.subtitle.exists) {
+        var d2 = helpers.getDimensions(self.cssPrefix + "subtitle");
+        self.textComponents.subtitle.h = d2.h;
+        self.textComponents.subtitle.w = d2.w;
+      }
+      if (self.textComponents.subtitleMultiLine.exists) {
+        var d3 = helpers.getDimensions(self.cssPrefix + "subtitle");
+        self.textComponents.subtitleMultiLine.h = d3.h;
+        self.textComponents.subtitleMultiLine.w = d3.w;
+      }
+      // now compute the full header height
+      if (self.textComponents.title.exists || self.textComponents.subtitle.exists) {
+        var headerHeight = 0;
+        if (self.textComponents.title.exists) {
+          headerHeight += self.textComponents.title.h;
+          if (self.textComponents.subtitle.exists) {
+            headerHeight += self.options.header.titleSubtitlePadding;
+          }
+        }
+        if (self.textComponents.subtitle.exists) {
+          headerHeight += self.textComponents.subtitle.h;
+        }
+        self.textComponents.headerHeight = headerHeight;
+      }
 
-			// position the title and subtitle
-			text.positionTitle(self);
-			text.positionSubtitle(self);
+      // at this point, all main text component dimensions have been calculated
+      math.computePieRadius(self);
 
-			// now create the pie chart segments, and gradients if the user desired
-			if (self.options.misc.gradient.enabled) {
-				segments.addGradients(self);
-			}
-			segments.create(self); // also creates this.arc
-			labels.add(self, "inner", self.options.labels.inner.format);
-			labels.add(self, "outer", self.options.labels.outer.format);
+      // this value is used all over the place for placing things and calculating locations. We figure it out ONCE
+      // and store it as part of the object
+      math.calculatePieCenter(self);
 
-			// position the label elements relatively within their individual group (label, percentage, value)
-			labels.positionLabelElements(self, "inner", self.options.labels.inner.format);
-			labels.positionLabelElements(self, "outer", self.options.labels.outer.format);
-			labels.computeOuterLabelCoords(self);
+      // position the title and subtitle
+      text.positionTitle(self);
+      if(self.textComponents.subtitleMultiLine.exists) {
+        text.positionSubtitleMultiLineText(self);
+      } else {
+        text.positionSubtitle(self);
+      }
 
-			// this is (and should be) dumb. It just places the outer groups at their calculated, collision-free positions
-			labels.positionLabelGroups(self, "outer");
+      // now create the pie chart segments, and gradients if the user desired
+      if (self.options.misc.gradient.enabled) {
+        segments.addGradients(self);
+      }
+      segments.create(self); // also creates this.arc
+      labels.add(self, "inner", self.options.labels.inner.format);
+      labels.add(self, "outer", self.options.labels.outer.format);
 
-			// we use the label line positions for many other calculations, so ALWAYS compute them
-			labels.computeLabelLinePositions(self);
+      // position the label elements relatively within their individual group (label, percentage, value)
+      labels.positionLabelElements(self, "inner", self.options.labels.inner.format);
+      labels.positionLabelElements(self, "outer", self.options.labels.outer.format);
+      labels.computeOuterLabelCoords(self);
 
-			// only add them if they're actually enabled
-			if (self.options.labels.lines.enabled && self.options.labels.outer.format !== "none") {
-				labels.addLabelLines(self);
-			}
+      // this is (and should be) dumb. It just places the outer groups at their calculated, collision-free positions
+      labels.positionLabelGroups(self, "outer");
 
-			labels.positionLabelGroups(self, "inner");
-			labels.fadeInLabelsAndLines(self);
+      // we use the label line positions for many other calculations, so ALWAYS compute them
+      labels.computeLabelLinePositions(self);
+
+      // only add them if they're actually enabled
+      if (self.options.labels.lines.enabled && self.options.labels.outer.format !== "none") {
+        labels.addLabelLines(self);
+      }
+
+      labels.positionLabelGroups(self, "inner");
+      labels.fadeInLabelsAndLines(self);
 
       // add and position the tooltips
       if (self.options.tooltips.enabled) {
@@ -2178,8 +2258,8 @@ var tt = {
       }
 
       segments.addSegmentEventHandlers(self);
-		});
-	};
+    });
+  };
 
   return d3pie;
 }));
