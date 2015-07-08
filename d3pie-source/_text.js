@@ -226,8 +226,18 @@ var text = {
     // add whatever offset has been added by user
     x += pie.options.misc.pieCenterOffset.x;
 
-    var title = document.getElementById(pie.cssPrefix + 'title');
-    var y = title.offsetTop + pie.options.header.titleSubtitlePadding;
+    var y;
+    if (pie.textComponents.title.exists) {
+      var title = document.getElementById(pie.cssPrefix + 'title');
+      y = parseInt(title.attributes['y'].value) + pie.options.header.titleSubtitlePadding;
+    } else {
+      if ("pie-center" === pie.options.header.location) {
+        var subtitle = document.getElementById('p0_subtitle');
+        y = pie.pieCenter.y - (subtitle.offsetHeight / 2);
+      } else {
+        y = pie.options.misc.canvasPadding.top;
+      }
+    }
 
     pie.svg.select("#" + pie.cssPrefix + "subtitle")
       .attr("transform", "translate(" + x + ", " + y + ")");
