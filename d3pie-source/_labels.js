@@ -295,30 +295,30 @@ var labels = {
 
   /* The trigonometric circle used in the lib is represented as below:
    *              0
-   *         360     90
+   *         270     90
    *             180
    */
   increaseImageLabelDistance: function (pie, i) {
 
-    // The max value to increase de distance of the label group is when it's located at 180°. It's must be increased in at most 14.3% of the pie's innerRadius.
-    var maxIncrease = (pie.innerRadius * 14.3) / 100;
-    // Como temos apenas distorção em apenas 30 graus do ponto extremo inferior do círculo, vamos calcular qual o valor aumentado a cada grau de aproximação desse ponto.
-    // There is distortion only the position of the goup is between 150° and 210°, so here is a rough value increase by degree in relation to the 180°.
+    // The max value to increase de distance of the label group is when it's located at 180°. It's must be increased in at most 7% of the pie's innerRadius.
+    // I haven't made any calculation, I was just guessing.
+    var maxIncrease = (pie.innerRadius * 7) / 100;
+    // There is distortion only the position of the goup is between 90° and 270°, so here is a rough value increase by degree in relation to the 180°.
     var increasePerDegree = maxIncrease / 30;
 
     var increase = 0;
 
     var angle = segments.getSegmentAngle(i, pie.options.data.content, pie.totalSize, { midpoint: true });
 
-    if(210 < angle || 150 > angle) {
+    if(270 < angle || 90 > angle) {
       return increase;
     }
 
     var angleDifference = 0;
-    if(150 < angle) {
-      angleDifference = angle - 150;
+    if(180 < angle) {
+      angleDifference = 270 - angle;
     } else {
-      angleDifference = 210 - angle;
+      angleDifference = angle - 90;
     }
     increase = angleDifference * increasePerDegree;
 
