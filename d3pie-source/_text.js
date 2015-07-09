@@ -229,7 +229,7 @@ var text = {
     var y;
     if (pie.textComponents.title.exists) {
       var title = document.getElementById(pie.cssPrefix + 'title');
-      y = parseInt(title.attributes['y'].value) + pie.options.header.titleSubtitlePadding;
+      y = parseInt(title.attributes.y.value) + pie.options.header.titleSubtitlePadding;
     } else {
       if ("pie-center" === pie.options.header.location) {
         var subtitle = document.getElementById('p0_subtitle');
