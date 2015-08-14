@@ -35,7 +35,10 @@ var labels = {
           .attr("class", pie.cssPrefix + "segmentMainLabel-" + section)
           .attr("height", function(d, i) { return d.height; })
           .attr("width", function(d, i) { return d.width; })
-          .attr("y", function(d, i) { return (11 + parseInt(d.height.replace('px', ''))) * -1; })
+          .attr("y", function(d, i) {
+            var imageDistance = include.percentage ? settings.percentage.fontSize : 0;
+            return (imageDistance + parseInt(d.height.replace('px', ''))) * -1; 
+          })
           .attr("xlink:href", function(d, i) { return d.href; });
       } else {
         labelGroup.append("text")
