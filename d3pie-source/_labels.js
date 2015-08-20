@@ -33,11 +33,11 @@ var labels = {
         labelGroup.append("svg:image")
           .attr("id", function(d, i) { return pie.cssPrefix + "segmentMainLabel" + i + "-" + section; })
           .attr("class", pie.cssPrefix + "segmentMainLabel-" + section)
-          .attr("height", function(d, i) { return d.height; })
-          .attr("width", function(d, i) { return d.width; })
+          .attr("height", function(d, i) { return d.height + 'px'; })
+          .attr("width", function(d, i) { return d.width + 'px'; })
           .attr("y", function(d, i) {
             var imageDistance = include.percentage ? settings.percentage.fontSize : 0;
-            return (imageDistance + parseInt(d.height.replace('px', ''))) * -1; 
+            return (imageDistance + d.height) * (-1);
           })
           .attr("xlink:href", function(d, i) { return d.href; });
       } else {
@@ -86,7 +86,29 @@ var labels = {
         })
         .style("font-size", settings.percentage.fontSize + "px")
         .style("font-family", settings.percentage.font)
-        .style("fill", settings.percentage.color);
+        .style("fill", settings.percentage.color)
+        .each(function(d, i) {
+
+          if(!include.isImageLabel) {
+            // It's Only necessary to correct the image position if the label is image.
+            return;
+          }
+
+          // var imageElement = document.getElementById('p0_segmentMainLabel' + i + '-outer');
+          var imageElement = document.querySelector('image[id$="_segmentMainLabel' + i + '-outer"]');
+          var imageOffsetWidth = imageElement.width.baseVal.value;
+          var percentageOffsetWidth = this.offsetWidth;
+
+          var widthDifference = Math.abs(percentageOffsetWidth - imageOffsetWidth);
+
+          if(0 === widthDifference) {
+            imageElement.setAttribute('x', 0);
+          } else {
+            imageElement.setAttribute('x', (widthDifference / 2) * (-1));
+          }
+
+        });
+
     }
 
     // 3. Add the value label
@@ -267,7 +289,7 @@ var labels = {
           y = pie.outerLabelGroupData[i].y;
           if(isImageLabel && pie.pieCenter.y < y) {
             // Here, it's necessary to take into account the size of the image and the distortion of the half down of the circle.
-            y +=  parseInt(d.height.replace('px', ''));
+            y +=  d.height;
             y += labels.increaseImageLabelDistance(pie, i);
           }
         } else {
@@ -426,7 +448,9 @@ var labels = {
       });
 
     // 2. now adjust those positions to try to accommodate conflicts
-    labels.resolveOuterLabelCollisions(pie);
+    if(pie.options.labels.outer.enableLabelCollisionCorrection) {
+      labels.resolveOuterLabelCollisions(pie);
+    }
   },
 
   /**
@@ -542,7 +566,8 @@ var labels = {
     // if the label is on the left half of the pie, adjust the values
     var hemisphere = "right"; // hemisphere
     if (angle > 180) {
-      newCoords.x -= (labelGroupDims.width + 8);
+      // newCoords.x -= (labelGroupDims.width + 8);
+      newCoords.x -= (labelGroupDims.width);
       hemisphere = "left";
     } else {
       newCoords.x += 8;
